@@ -5,6 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polyline;
 
 public class mazeMap extends Pane {
@@ -45,8 +46,7 @@ public class mazeMap extends Pane {
 
 	private Pane bulid(String string,int num) {
 
-		Polyline polyline = null;
-		// for (int i = 0; i < mazeList.size(); i++) {
+		Line polyline = null;
 		BorderPane bp = new BorderPane();
 
 		int d = 0;
@@ -55,19 +55,19 @@ public class mazeMap extends Pane {
 
 				switch (d) {
 				case 0:
-					polyline = new Polyline(0, 0, mapSpe, 0);
+					polyline = new Line(0, 0, mapSpe, 0);
 					bp.setTop(polyline);
 					break;
 				case 1:
-					polyline = new Polyline(mapSpe, 0, mapSpe, mapSpe);
+					polyline = new Line(mapSpe, 0, mapSpe, mapSpe);
 					bp.setRight(polyline);
 					break;
 				case 2:
-					polyline = new Polyline(0, mapSpe, mapSpe, mapSpe);
+					polyline = new Line(0, mapSpe, mapSpe, mapSpe);
 					bp.setBottom(polyline);
 					break;
 				case 3:
-					polyline = new Polyline(0, 0, 0, mapSpe);
+					polyline = new Line(0, 0, 0, mapSpe);
 					bp.setLeft(polyline);
 					break;
 				default:
@@ -78,10 +78,15 @@ public class mazeMap extends Pane {
 		}
 		//³öÃ»µã
 		if (num == Spe*Spe-1 || num == 0) {
-			System.out.println(num);
 			Circle circle = new Circle((600 - Spe * 5) / (Spe * 2 * 2));
+			if(num == 0) {
+				circle.setFill(Color.RED);
+				circle.setStroke(Color.RED);
+			}
+			if(num == Spe*Spe-1) {
 			circle.setFill(Color.GREEN);
 			circle.setStroke(Color.GREEN);
+			}
 			bp.setCenter(circle);
 		}
 		

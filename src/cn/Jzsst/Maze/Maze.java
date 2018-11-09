@@ -24,7 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -33,21 +33,21 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * Î´Íê³É 1.¶¯»­ 2.´úÂë¼ò»¯ 3.½çÃæ¹Ì¶¨ 4.³öÄ©µã 5.UI¸Ä±ä 6.ÆäËü¹¦ÄÜ(µã»÷ÏÔÊ¾)
+ * æœªå®Œæˆ 1.åŠ¨ç”» 2.ä»£ç ç®€åŒ– 3.ç•Œé¢å›ºå®š 4.å‡ºæœ«ç‚¹ 5.UIæ”¹å˜ 6.å…¶å®ƒåŠŸèƒ½(ç‚¹å‡»æ˜¾ç¤º)
  * 
  */
-// ³¢ÊÔ 8*8 µØÍ¼ ´Ó(0 , 0) µ½ ( 7 , 7);
+// å°è¯• 8*8 åœ°å›¾ ä»(0 , 0) åˆ° ( 7 , 7);
 public class Maze extends Application {
 	private HBox AllPane = new HBox();
 	private depthMaze depthRoad = new depthMaze();
 	private spanMaze spanRoad = new spanMaze();
-	// ¶¯»­Ìí¼Ó
+	// åŠ¨ç”»æ·»åŠ 
 	private Timeline timeline = null;
 	private mazeMap map = new mazeMap();
 	private GridPane Maze_map_pane = new GridPane();
 	private int Num_Animation_Frame = 0;
 	private EventHandler<ActionEvent> generate_EventHandler = null;
-	// »¬¶¯Ìõ
+	// æ»‘åŠ¨æ¡
 	private Slider slider = new Slider();
 
 	// ***********
@@ -75,18 +75,18 @@ public class Maze extends Application {
 
 		pane.getChildren().add(label);
 
-		Text text = new Text("ÃÔ¹¬Éú³ÉÄ£Ê½");
-		Button Bautomatic = new Button("×Ô¶¯Éú³É");
-		Button Bmanually = new Button("ÊÖ¶¯Éú³É");
-		Button Breset = new Button("ÖØÖÃ");
+		Text text = new Text("è¿·å®«ç”Ÿæˆæ¨¡å¼");
+		Button Bautomatic = new Button("è‡ªåŠ¨ç”Ÿæˆ");
+		Button Bmanually = new Button("æ‰‹åŠ¨ç”Ÿæˆ");
+		Button Breset = new Button("é‡ç½®");
 		TextField textFieldSpe = new TextField();
-		TextField fieldError = new TextField("´íÎóĞÅÏ¢ÏÔÊ¾...");
-		Button button = new Button("Ñ°ÕÒÂ·¾¶");
-		Button button1 = new Button("±éÀúÃÔ¹¬");
-		Button button2 = new Button("×î¶ÌÂ·¾¶");
-		Button button3 = new Button("µ¥²½Ñ°Â·");
-		Button button4 = new Button("Ìí¼ÓÃÔ¹¬ÎÄ¼ş(*.txt)");
-		Button sure = new Button("È·¶¨");
+		TextField fieldError = new TextField("é”™è¯¯ä¿¡æ¯æ˜¾ç¤º...");
+		Button button = new Button("å¯»æ‰¾è·¯å¾„");
+		Button button1 = new Button("éå†è¿·å®«");
+		Button button2 = new Button("æœ€çŸ­è·¯å¾„");
+		Button button3 = new Button("å•æ­¥å¯»è·¯");
+		Button button4 = new Button("æ·»åŠ è¿·å®«æ–‡ä»¶(*.txt)");
+		Button sure = new Button("ç¡®å®š");
 		sure.setDisable(true);
 		button.setDisable(true);
 		button1.setDisable(true);
@@ -94,13 +94,13 @@ public class Maze extends Application {
 		button3.setDisable(true);
 		button4.setDisable(true);
 		textFieldSpe.setDisable(true);
-		
+
 		// button
 		VBox paneRight = new VBox();
 		paneRight.setPadding(new Insets(0, 40, 0, 100));
 		paneRight.setAlignment(Pos.CENTER);
 		paneRight.setSpacing(10);
-		// Éú³É¹¦ÄÜ
+		// ç”ŸæˆåŠŸèƒ½
 		HBox mode = new HBox();
 		mode.getChildren().addAll(Bautomatic, Bmanually);
 		mode.setAlignment(Pos.CENTER);
@@ -111,9 +111,9 @@ public class Maze extends Application {
 		paneRight.getChildren().add(text);
 		paneRight.getChildren().add(mode);
 
-		// ÊÖ¶¯¹¦ÄÜ
+		// æ‰‹åŠ¨åŠŸèƒ½
 
-		Text text3 = new Text("ÃÔ¹¬¹æÄ£");
+		Text text3 = new Text("è¿·å®«è§„æ¨¡");
 		text3.setFont(Font.font("Helvetica", FontWeight.BOLD, 20));
 		paneRight.getChildren().add(text3);
 
@@ -132,16 +132,16 @@ public class Maze extends Application {
 		paneRight.getChildren().add(b2);
 		paneRight.getChildren().add(Breset);
 		paneRight.getChildren().add(fieldError);
-		paneRight.getChildren().add(new Label("¶¯»­ËÙ¶È"));
-		paneRight.getChildren().add(new Label("Âı              ---->            ¿ì"));
+		paneRight.getChildren().add(new Label("åŠ¨ç”»é€Ÿåº¦"));
+		paneRight.getChildren().add(new Label("æ…¢              ---->            å¿«"));
 		paneRight.getChildren().add(slider);
 		// PaneRight
 		// ***************
-		// ÊÂ¼ş´¦ÀíÆ÷
-		// ÖØÖÃ
+		// äº‹ä»¶å¤„ç†å™¨
+		// é‡ç½®
 		Breset.setOnAction(e -> {
 			mazeList.clear();
-			// ¶¯»­ÖØĞÂ¶¨Òå
+			// åŠ¨ç”»é‡æ–°å®šä¹‰
 			Num_Animation_Frame = 0;
 			Maze_map_pane = new GridPane();
 			// slider = new Slider(20,1000,20);
@@ -157,12 +157,12 @@ public class Maze extends Application {
 			Bmanually.setDisable(false);
 			pane.getChildren().clear();
 			pane.getChildren().add(label);
-			fieldError.setText("´íÎóĞÅÏ¢ÏÔÊ¾...");
+			fieldError.setText("é”™è¯¯ä¿¡æ¯æ˜¾ç¤º...");
 			flag = 0;
 			Spe = 0;
 		});
-		// Éú³ÉÄ£Ê½
-		// ×Ô¶¯°´Å¥
+		// ç”Ÿæˆæ¨¡å¼
+		// è‡ªåŠ¨æŒ‰é’®
 		Bautomatic.setOnAction(e -> {
 			Bautomatic.setDisable(true);
 			Bmanually.setDisable(true);
@@ -182,7 +182,7 @@ public class Maze extends Application {
 				}
 				// *******************************
 				// 2018-9-9
-				// Ìí¼Ó¶¯»­
+				// æ·»åŠ åŠ¨ç”»
 				Maze_Generate_Animation();
 
 				// *******************************
@@ -193,11 +193,11 @@ public class Maze extends Application {
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				pane.getChildren().add(label);
-				fieldError.setText("ÇëÔÚÊäÈë¿òÊäÈëÖµ!!");
+				fieldError.setText("è¯·åœ¨è¾“å…¥æ¡†è¾“å…¥å€¼!!");
 			}
 
 		});
-		// ÊÖ¶¯°´Å¥
+		// æ‰‹åŠ¨æŒ‰é’®
 		Bmanually.setOnAction(e -> {
 			Bmanually.setDisable(true);
 			Bautomatic.setDisable(true);
@@ -223,7 +223,7 @@ public class Maze extends Application {
 				pane.getChildren().clear();
 				// ********************
 
-				// ¶¯»­
+				// åŠ¨ç”»
 
 				Maze_Generate_Animation();
 
@@ -232,26 +232,21 @@ public class Maze extends Application {
 				button.setDisable(false);
 				button1.setDisable(false);
 			} catch (Exception e1) {
-				fieldError.setText("ÇëÔÚÑ¡ÔñtxtÎÄ¼ş!!");
+				fieldError.setText("è¯·åœ¨é€‰æ‹©txtæ–‡ä»¶!!");
 			}
 
 		});
-		// Button button = new Button("Ñ°ÕÒÂ·¾¶");
-		// Button button1 = new Button("±éÀúÃÔ¹¬");
-		// Button button2 = new Button("×î¶ÌÂ·¾¶");
-		// Button button3 = new Button("µ¥²½Ñ°Â·");
+		// Button button = new Button("å¯»æ‰¾è·¯å¾„");
+		// Button button1 = new Button("éå†è¿·å®«");
+		// Button button2 = new Button("æœ€çŸ­è·¯å¾„");
+		// Button button3 = new Button("å•æ­¥å¯»è·¯");
 
-		// µ¥²½
-		// gridPand2
-		// mazePointB = depthRoad.getMazePoint1();
-		// mazeRoadB =depthRoad.depthFindRoad(mazeList, Spe, 1);
+		// å•æ­¥
 		button3.setOnAction(e -> {
 			gridPane2.getChildren().clear();
 			gridPane1.getChildren().clear();
 
 			pane.getChildren().clear();
-			pane.setLayoutY(60);
-			pane.setLayoutX(60);
 			try {
 				// **
 				Stack<MyPoint> mazePointT = new Stack<>();
@@ -283,37 +278,34 @@ public class Maze extends Application {
 
 		});
 
-		// ×î¶Ì
+		// æœ€çŸ­
 		button2.setOnAction(e -> {
 			gridPane1.getChildren().clear();
-			// ¿ØÖÆ
+			// æ§åˆ¶
 			try {
-				Num_Animation_Frame=0;
-				Stack<String> spanRoad_Back=spanRoad.spanFindRoad(mazeList, Spe);
-//				Stack<String> spanRoad_Just = new Stack<>();
-//				
-//				
-//				for (int i = 0; i<spanRoad_Back.size()-1; i++) {
-//					spanRoad_Just.set(spanRoad_Back.get(i));
-//				}
-//				
-				
+				Num_Animation_Frame = 0;
+				Stack<String> spanRoad_Back = spanRoad.spanFindRoad(mazeList, Spe);
+				// å°†ä¸¤ä¸ªæ•°ç»„è¿›è¡Œå€’ç½®
+//				Stack<String> spanRoad_Back_T = (Stack) spanRoad_Back.clone();
+//				@SuppressWarnings("rawtypes")
+//				Stack spanRoad_T =(Stack) spanRoad.getMazePoint().clone();	
+//				spanRoad_Back_T =reverseStack(spanRoad_Back_T);
+//				spanRoad_T =reverseStack(spanRoad_T);
+//				Maze_Search_Animation(spanRoad_T, spanRoad_Back_T, new Color(0, 1, 0, 1), 0);
 				Maze_Search_Animation(spanRoad.getMazePoint(), spanRoad_Back, new Color(0, 1, 0, 1), 0);
-			
+
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			pane.getChildren().clear();
-			pane.setLayoutY(60);
-			pane.setLayoutX(60);
 			pane.getChildren().add(gridPane1);
 
 		});
 
-		// ±éÀú
+		// éå†
 		button1.setOnAction(e -> {
-			// ¿ØÖÆ
+			// æ§åˆ¶
 			button3.setDisable(false);
 			button2.setDisable(false);
 			gridPane1.getChildren().clear();
@@ -326,7 +318,7 @@ public class Maze extends Application {
 				e2.printStackTrace();
 			}
 			try {
-				Num_Animation_Frame=0;
+				Num_Animation_Frame = 0;
 				Maze_Search_Animation(mazePointB, mazeRoadB, new Color(0, 0, 1, 1), 0);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -338,26 +330,22 @@ public class Maze extends Application {
 			pane.getChildren().add(gridPane1);
 
 		});
-
-		// Ñ°ÕÒÂ·¾¶
+		// å¯»æ‰¾è·¯å¾„
 		button.setOnAction(e -> {
-
-			// ¿ØÖÆ
+			// æ§åˆ¶
 			gridPane1.getChildren().clear();
 			try {
-				Num_Animation_Frame=0;
-				Maze_Search_Animation(depthRoad.getMazePoint(),  depthRoad.depthFindRoad(mazeList, Spe, 0),  new Color(1, 0, 0, 1), 0);
+				Num_Animation_Frame = 0;
+				Maze_Search_Animation(depthRoad.getMazePoint(), depthRoad.depthFindRoad(mazeList, Spe, 0),
+						new Color(1, 0, 0, 1), 0);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			pane.getChildren().clear();
-			pane.setLayoutY(60);
-			pane.setLayoutX(60);
 			pane.getChildren().add(gridPane1);
-
 		});
-		// ***×¢Òâ
+		// ***æ³¨æ„
 		AllPane.getChildren().add(pane);
 		AllPane.setPadding(new Insets(0, 0, 20, 0));
 		AllPane.getChildren().add(paneRight);
@@ -371,11 +359,29 @@ public class Maze extends Application {
 		primaryStage.show();
 	}
 
+	// *************
+//	private Stack reverseStack(Stack s) {
+//		Queue r = new LinkedList();
+//
+//		// r.offer() æ˜¯å°†æŒ‡å®šé˜Ÿåˆ—æ’åˆ°rä¸­
+//
+//		// s.popæ˜¯ ç§»é™¤å †æ ˆé¡¶éƒ¨çš„å¯¹è±¡ï¼Œå¹¶ä½œä¸ºæ­¤å‡½æ•°çš„å€¼è¿”å›è¯¥å¯¹è±¡ã€‚
+//		while (s.size() > 0)
+//			r.offer(s.pop());
+//
+//		// s.push() æŠŠé¡¹å‹å…¥å †æ ˆé¡¶éƒ¨ã€‚
+//
+//		// r.poll() è·å–å¹¶ç§»é™¤æ­¤é˜Ÿåˆ—çš„å¤´ï¼Œå¦‚æœæ­¤é˜Ÿåˆ—ä¸ºç©ºï¼Œåˆ™è¿”å› nullã€‚
+//		while (r.size() > 0)
+//			s.push(r.poll());
+//		return s;
+//	}
+
 	private void Ui(Stack<MyPoint> mazePoint, Stack<String> mazeRoad, Color color, int num) {
 
 		try {
 
-			Polyline polyline = null;
+			Line line = null;
 			for (int i = 0; i < mazeList.size(); i++) {
 
 				BorderPane bp = new BorderPane();
@@ -386,22 +392,20 @@ public class Maze extends Application {
 
 						switch (d) {
 						case 0:
-							polyline = new Polyline(0, 0, (600 - Spe * 5) / Spe, 0);
-							bp.setTop(polyline);
+							line = new Line(0, 0, (600 - Spe * 5) / Spe, 0);
+							bp.setTop(line);
 							break;
 						case 1:
-							polyline = new Polyline((600 - Spe * 5) / Spe, 0, (600 - Spe * 5) / Spe,
-									(600 - Spe * 5) / Spe);
-							bp.setRight(polyline);
+							line = new Line((600 - Spe * 5) / Spe, 0, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe);
+							bp.setRight(line);
 							break;
 						case 2:
-							polyline = new Polyline(0, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe,
-									(600 - Spe * 5) / Spe);
-							bp.setBottom(polyline);
+							line = new Line(0, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe);
+							bp.setBottom(line);
 							break;
 						case 3:
-							polyline = new Polyline(0, 0, 0, (600 - Spe * 5) / Spe);
-							bp.setLeft(polyline);
+							line = new Line(0, 0, 0, (600 - Spe * 5) / Spe);
+							bp.setLeft(line);
 							break;
 						default:
 							break;
@@ -439,8 +443,14 @@ public class Maze extends Application {
 				}
 				if (i == mazeList.size() - 1 || i == 0) {
 					Circle circle = new Circle((600 - Spe * 5) / (Spe * 2 * 2));
-					circle.setFill(Color.GREEN);
-					circle.setStroke(Color.GREEN);
+					if (num == 0) {
+						circle.setFill(Color.RED);
+						circle.setStroke(Color.RED);
+					}
+					if (num == Spe * Spe - 1) {
+						circle.setFill(Color.GREEN);
+						circle.setStroke(Color.GREEN);
+					}
 					bp.setCenter(circle);
 				}
 
@@ -448,37 +458,31 @@ public class Maze extends Application {
 					gridPane1.add(bp, x, y);
 				} else
 					gridPane2.add(bp, x, y);
-				// ×ª»¯
+				// è½¬åŒ–
 			}
-			gridPane1.setLayoutX(60);
-			gridPane1.setLayoutY(60);
-			gridPane2.setLayoutX(60);
-			gridPane2.setLayoutY(60);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
-	/** ÃÔ¹¬Ñ°Â·¶¯»­ */
+	/** è¿·å®«å¯»è·¯åŠ¨ç”» */
 	public void Maze_Search_Animation(Stack<MyPoint> mazePoint, Stack<String> mazeRoad, Color color, int num) {
 		generate_EventHandler = e -> {
-
-			Stack<String> mazeRoad_temp = new Stack<>();	
+			Stack<String> mazeRoad_temp = new Stack<>();
 			Stack<MyPoint> mazePoint_temp = new Stack<>();
-			// Ã¿Ò»Ö¡µÄ¶¯»­,½«Ã¿Ò»¸ö·½¸ñÌí¼ÓÈëmap_Maze
+			// æ¯ä¸€å¸§çš„åŠ¨ç”»,å°†æ¯ä¸€ä¸ªæ–¹æ ¼æ·»åŠ å…¥map_Maze
 			for (int i = 0; i < Num_Animation_Frame; i++) {
 				mazeRoad_temp.push(mazeRoad.get(i));
 				mazePoint_temp.push(mazePoint.get(i));
 			}
 			try {
-				Ui(mazePoint_temp,mazeRoad , new Color(0, 1, 0, 1), 0);
+				Ui(mazePoint_temp, mazeRoad, new Color(0, 1, 0, 1), 0);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			Num_Animation_Frame++;
-			// ¶¯»­Í£Ö¹
+			// åŠ¨ç”»åœæ­¢
 			if (Num_Animation_Frame == mazeRoad.size())
 				timeline.stop();
 		};
@@ -492,11 +496,11 @@ public class Maze extends Application {
 		timeline.play();
 	}
 
-	/** Éú³ÉÃÔ¹¬¶¯»­ */
+	/** ç”Ÿæˆè¿·å®«åŠ¨ç”» */
 	public void Maze_Generate_Animation() {
 		generate_EventHandler = e -> {
 
-			// Ã¿Ò»Ö¡µÄ¶¯»­,½«Ã¿Ò»¸ö·½¸ñÌí¼ÓÈëmap_Maze
+			// æ¯ä¸€å¸§çš„åŠ¨ç”»,å°†æ¯ä¸€ä¸ªæ–¹æ ¼æ·»åŠ å…¥map_Maze
 			try {
 				int x = Num_Animation_Frame % Spe;
 				int y = Num_Animation_Frame / Spe;
@@ -509,7 +513,7 @@ public class Maze extends Application {
 			}
 
 			Num_Animation_Frame++;
-			// ¶¯»­Í£Ö¹
+			// åŠ¨ç”»åœæ­¢
 			if (Num_Animation_Frame == mazeList.size())
 				timeline.stop();
 		};
