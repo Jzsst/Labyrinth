@@ -17,10 +17,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -33,11 +35,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
- * 未完成 1.动画 2.代码简化 3.界面固定 4.出末点 5.UI改变 6.其它功能(点击显示)
+ * 未完成 3.界面固定 4.出末点 5.UI改变 6.其它功能(点击显示)
  * 
  */
-// 尝试 8*8 地图 从(0 , 0) 到 ( 7 , 7);
 public class Maze extends Application {
+	// 背景
+	private StackPane stackPane = new StackPane();
 	private HBox AllPane = new HBox();
 	private depthMaze depthRoad = new depthMaze();
 	private spanMaze spanRoad = new spanMaze();
@@ -49,7 +52,6 @@ public class Maze extends Application {
 	private EventHandler<ActionEvent> generate_EventHandler = null;
 	// 滑动条
 	private Slider slider = new Slider();
-
 	// ***********
 	private ArrayList<String> mazeList = new ArrayList<>();
 	private GenerationPath gp;
@@ -69,9 +71,16 @@ public class Maze extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
+		// gridPane1||gridPane2||Maze_map_pane初始化
+
+		gridPane1.setPadding(new Insets(220, 90, 250, 100));
+		gridPane2.setPadding(new Insets(220, 90, 250, 100));
+		Maze_map_pane.setPadding(new Insets(220, 90, 250, 100));
+
 		Label label = new Label("Maze");
 		label.setFont(new Font(200));
-		label.setPadding(new Insets(200, 0, 250, 100));
+		label.setTextFill(Color.YELLOW);
+		label.setPadding(new Insets(320, 100, 250, 100));
 
 		pane.getChildren().add(label);
 
@@ -180,18 +189,12 @@ public class Maze extends Application {
 				for (int i = 0; i < GPathRoad.size(); i++) {
 					mazeList.add(GPathRoad.get(i).toState());
 				}
-				// *******************************
-				// 2018-9-9
 				// 添加动画
 				Maze_Generate_Animation();
-
-				// *******************************
-
 				sure.setDisable(true);
 				button.setDisable(false);
 				button1.setDisable(false);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				pane.getChildren().add(label);
 				fieldError.setText("请在输入框输入值!!");
 			}
@@ -236,11 +239,6 @@ public class Maze extends Application {
 			}
 
 		});
-		// Button button = new Button("寻找路径");
-		// Button button1 = new Button("遍历迷宫");
-		// Button button2 = new Button("最短路径");
-		// Button button3 = new Button("单步寻路");
-
 		// 单步
 		button3.setOnAction(e -> {
 			gridPane2.getChildren().clear();
@@ -256,17 +254,16 @@ public class Maze extends Application {
 					mazeRoadT.add(mazeRoadB.get(i));
 				}
 				flag++;
+				// Color.CORNFLOWERBLUE
 				Ui(mazePointT, mazeRoadT, Color.CORNFLOWERBLUE, 1);
 				// **
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			if (flag == mazePointB.size()) {
 				try {
 					Ui(spanRoad.getMazePoint(), spanRoad.spanFindRoad(mazeList, Spe), new Color(0, 1, 0, 1), 0);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				button3.setDisable(true);
@@ -295,7 +292,6 @@ public class Maze extends Application {
 				Maze_Search_Animation(spanRoad.getMazePoint(), spanRoad_Back, new Color(0, 1, 0, 1), 0);
 
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			pane.getChildren().clear();
@@ -314,14 +310,12 @@ public class Maze extends Application {
 				mazePointB = depthRoad.getMazePoint1();
 				mazeRoadB = depthRoad.depthFindRoad(mazeList, Spe, 1);
 			} catch (Exception e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 			try {
 				Num_Animation_Frame = 0;
 				Maze_Search_Animation(mazePointB, mazeRoadB, new Color(0, 0, 1, 1), 0);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			pane.getChildren().clear();
@@ -339,20 +333,21 @@ public class Maze extends Application {
 				Maze_Search_Animation(depthRoad.getMazePoint(), depthRoad.depthFindRoad(mazeList, Spe, 0),
 						new Color(1, 0, 0, 1), 0);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			pane.getChildren().clear();
 			pane.getChildren().add(gridPane1);
 		});
-		// ***注意
+		// 背景
+		ImageView imageView = new ImageView("file:file/backgrand.png");
 		AllPane.getChildren().add(pane);
-		AllPane.setPadding(new Insets(0, 0, 20, 0));
 		AllPane.getChildren().add(paneRight);
 		AllPane.setAlignment(Pos.CENTER);
-		Scene scene = new Scene(AllPane);
+		stackPane.getChildren().add(imageView);
+		stackPane.getChildren().add(AllPane);
+		Scene scene = new Scene(stackPane);
 		primaryStage.setScene(scene);
-		primaryStage.getIcons().add(new Image("file:maze.jpg"));
+		primaryStage.getIcons().add(new Image("file:file/logo.png"));
 		primaryStage.setMaximized(true);
 		primaryStage.setTitle("Maze1.0v ByJzsst");
 		primaryStage.setResizable(false);
@@ -379,9 +374,11 @@ public class Maze extends Application {
 
 	private void Ui(Stack<MyPoint> mazePoint, Stack<String> mazeRoad, Color color, int num) {
 
+		double mapSpe = (800 - Spe * 5) / Spe;
+		double color_num = 1.5;
 		try {
 
-			Line line = null;
+			Line line = new Line();
 			for (int i = 0; i < mazeList.size(); i++) {
 
 				BorderPane bp = new BorderPane();
@@ -392,19 +389,27 @@ public class Maze extends Application {
 
 						switch (d) {
 						case 0:
-							line = new Line(0, 0, (600 - Spe * 5) / Spe, 0);
+							line = new Line(10, 10,mapSpe, 10);
+							line.setStroke(Color.YELLOW);
+							line.setStrokeWidth(color_num);
 							bp.setTop(line);
 							break;
 						case 1:
-							line = new Line((600 - Spe * 5) / Spe, 0, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe);
+							line = new Line(mapSpe, 10, mapSpe, mapSpe);
+							line.setStroke(Color.YELLOW);
+							line.setStrokeWidth(color_num);
 							bp.setRight(line);
 							break;
 						case 2:
-							line = new Line(0, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe, (600 - Spe * 5) / Spe);
+							line = new Line(10, mapSpe,mapSpe, mapSpe);
+							line.setStroke(Color.YELLOW);
+							line.setStrokeWidth(color_num);
 							bp.setBottom(line);
 							break;
 						case 3:
-							line = new Line(0, 0, 0, (600 - Spe * 5) / Spe);
+							line = new Line(10, 10, 10, mapSpe);
+							line.setStroke(Color.YELLOW);
+							line.setStrokeWidth(color_num);
 							bp.setLeft(line);
 							break;
 						default:
@@ -443,21 +448,22 @@ public class Maze extends Application {
 				}
 				if (i == mazeList.size() - 1 || i == 0) {
 					Circle circle = new Circle((600 - Spe * 5) / (Spe * 2 * 2));
-					if (num == 0) {
+					if (i == 0) {
 						circle.setFill(Color.RED);
 						circle.setStroke(Color.RED);
 					}
-					if (num == Spe * Spe - 1) {
+					if (i == Spe * Spe - 1) {
 						circle.setFill(Color.GREEN);
 						circle.setStroke(Color.GREEN);
 					}
 					bp.setCenter(circle);
 				}
-
+				
 				if (num == 0) {
 					gridPane1.add(bp, x, y);
 				} else
 					gridPane2.add(bp, x, y);
+
 				// 转化
 			}
 		} catch (Exception e1) {
@@ -476,9 +482,8 @@ public class Maze extends Application {
 				mazePoint_temp.push(mazePoint.get(i));
 			}
 			try {
-				Ui(mazePoint_temp, mazeRoad, new Color(0, 1, 0, 1), 0);
+				Ui(mazePoint_temp, mazeRoad, color, 0);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			Num_Animation_Frame++;
@@ -499,7 +504,6 @@ public class Maze extends Application {
 	/** 生成迷宫动画 */
 	public void Maze_Generate_Animation() {
 		generate_EventHandler = e -> {
-
 			// 每一帧的动画,将每一个方格添加入map_Maze
 			try {
 				int x = Num_Animation_Frame % Spe;
@@ -508,7 +512,6 @@ public class Maze extends Application {
 				Maze_map_pane.add(map.MazeGeneration(mazeList.get(Num_Animation_Frame), Spe, Num_Animation_Frame), x,
 						y);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 

@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polyline;
 
 public class mazeMap extends Pane {
 
@@ -33,7 +32,7 @@ public class mazeMap extends Pane {
 	public Pane MazeGeneration(String string, int Spe,int num) throws Exception {
 		pane.getChildren().clear();
 		this.Spe = Spe;
-		mapSpe = (600 - Spe * 5) / Spe;
+		mapSpe = (800 - Spe * 5) / Spe;
 		// 迷宫数据 ( 0 1 )编码 ( 上 右 下 左 )
 		// 通过mazemodel类返回生成建设路径
 		
@@ -46,7 +45,8 @@ public class mazeMap extends Pane {
 
 	private Pane bulid(String string,int num) {
 
-		Line polyline = null;
+		double color_num = 1.5;
+		Line line = new Line();
 		BorderPane bp = new BorderPane();
 
 		int d = 0;
@@ -55,20 +55,28 @@ public class mazeMap extends Pane {
 
 				switch (d) {
 				case 0:
-					polyline = new Line(0, 0, mapSpe, 0);
-					bp.setTop(polyline);
+					line = new Line(10, 10, mapSpe, 10);
+					line.setStroke(Color.YELLOW);
+					line.setStrokeWidth(color_num);
+					bp.setTop(line);
 					break;
 				case 1:
-					polyline = new Line(mapSpe, 0, mapSpe, mapSpe);
-					bp.setRight(polyline);
+					line = new Line(mapSpe, 10, mapSpe, mapSpe);
+					line.setStroke(Color.YELLOW);
+					line.setStrokeWidth(color_num);
+					bp.setRight(line);
 					break;
 				case 2:
-					polyline = new Line(0, mapSpe, mapSpe, mapSpe);
-					bp.setBottom(polyline);
+					line = new Line(10, mapSpe, mapSpe, mapSpe);
+					line.setStroke(Color.YELLOW);
+					line.setStrokeWidth(color_num);
+					bp.setBottom(line);
 					break;
 				case 3:
-					polyline = new Line(0, 0, 0, mapSpe);
-					bp.setLeft(polyline);
+					line = new Line(10, 10, 10, mapSpe);
+					line.setStroke(Color.YELLOW);
+					line.setStrokeWidth(color_num);
+					bp.setLeft(line);
 					break;
 				default:
 					break;
