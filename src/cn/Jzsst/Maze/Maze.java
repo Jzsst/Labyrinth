@@ -349,7 +349,7 @@ public class Maze extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.getIcons().add(new Image("file:file/logo.png"));
 		primaryStage.setMaximized(true);
-		primaryStage.setTitle("Maze1.0v ByJzsst");
+		primaryStage.setTitle("Maze2.1v ByJzsst");
 		primaryStage.setResizable(false);
 		primaryStage.show();
 	}

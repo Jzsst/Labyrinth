@@ -50,9 +50,6 @@ public class depthMaze {
 		EndY = mazeS - 1;
 		// 对路径进行分析,寻路
 		depthFind();
-//		for (int i = 0; i < mazeRoad.size(); i++) {
-//			System.out.println(mazeRoad.get(i));
-//		}
 		return mazeRoad;
 	}
 
@@ -130,12 +127,6 @@ public class depthMaze {
 				}
 				
 				if(sum==0) {
-//					for (int i = 0; i < mazePoint1.size(); i++) {
-//						System.out.println(mazePoint1.get(i));
-//					}
-//					for (int i = 0; i < mazeRoad.size(); i++) {
-//						System.out.println(mazeRoad.get(i));
-//					}
 					return;
 				}
 			}

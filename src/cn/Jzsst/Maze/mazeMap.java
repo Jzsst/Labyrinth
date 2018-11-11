@@ -33,12 +33,6 @@ public class mazeMap extends Pane {
 		pane.getChildren().clear();
 		this.Spe = Spe;
 		mapSpe = (800 - Spe * 5) / Spe;
-		// 迷宫数据 ( 0 1 )编码 ( 上 右 下 左 )
-		// 通过mazemodel类返回生成建设路径
-		
-		// 装pane
-		// gridPane.setLayoutY(60);
-		// gridPane.setLayoutX(60);
 		return bulid(string , num);
 
 	}
