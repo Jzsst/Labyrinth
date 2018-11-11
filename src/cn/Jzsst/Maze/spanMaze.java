@@ -49,7 +49,7 @@ public class spanMaze {
 	public spanMaze() {
 	}
 
-	public Stack<String> spanFindRoad(ArrayList<String> mazeList, int Spe) throws Exception {
+	public Stack<String> spanFindRoad(ArrayList<String> mazeList, int Spe,int BG,int END) throws Exception {
 		mazeBoolean.clear();
 		mazePoint.clear();
 		mazeRoad.clear();
@@ -61,8 +61,13 @@ public class spanMaze {
 			mazeDirection.add(0);
 		}
 		this.Spe = Spe;
-		EndX = Spe - 1;
-		EndY = Spe - 1;
+		
+		StartX =BG%Spe; 
+		StartY = BG/Spe;
+		
+		EndX =END%Spe;
+		EndY = END/Spe;
+		
 		spanFind();
 
 		return mazeRoad;
@@ -138,38 +143,4 @@ public class spanMaze {
 
 	}
 }
-/*
- * Queue<MyPoint> queue = new LinkedList<MyPoint>(); MyPoint myPoint = new
- * MyPoint(0, 0); // X 0 7 // Y 0 7 mazePoint.add(new MyPoint(StartX, StartY));
- * queue.offer(myPoint); // ¾ØÕóÊý×é°´0,1,2...n*m±àºÅ RecordUpperNode[StartX][StartY] =
- * StartX + StartY* Spe; mazeBoolean.set(EndX + EndY* Spe, true);
- * 
- * 
- * while (!queue.isEmpty()) {
- * 
- * myPoint = queue.poll();
- * 
- * for (int i = 0; i < 4; i++) { int x = myPoint.getX(); int y = myPoint.getY();
- * String mazeString = mazeList.get(x + y * Spe); switch (i) { case 0: y--;
- * break; case 1: x++; break; case 2: y++; break; case 3: x--; break; default:
- * break; } if (mazeString.charAt(i) == '0' && mazeBoolean.get(x + y * Spe) ==
- * false) { mazeBoolean.set(x * Spe + y, true); myPoint = new MyPoint(x, y);
- * System.out.println(myPoint); queue.offer(myPoint); RecordUpperNode[x][y] = x
- * + y * Spe; last_dir[x][y] = i;
- * 
- * } } }
- * 
- * 
- * int fx = EndX; int fy = EndY; int index = EndX + EndY* Spe; while
- * (RecordUpperNode[fx][fy] != index) {
- * 
- * switch (last_dir[fx][fy]) { case 0: mazeRoad.push(Up); break; case 1:
- * mazeRoad.push(Right); break; case 2: mazeRoad.push(Down); break; case 3:
- * mazeRoad.push(Left); break; } int x = RecordUpperNode[fx][fy] % Spe; int y =
- * RecordUpperNode[fx][fy] / Spe; fx = x; fy = y; index = fx * Spe + fy; }
- * 
- * 
- * 
- * 
- * 
- */
+

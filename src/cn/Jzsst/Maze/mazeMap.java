@@ -29,15 +29,15 @@ public class mazeMap extends Pane {
 	public mazeMap() {
 	}
 
-	public Pane MazeGeneration(String string, int Spe,int num) throws Exception {
+	public Pane MazeGeneration(String string, int Spe,int num,int BG,int END) throws Exception {
 		pane.getChildren().clear();
 		this.Spe = Spe;
 		mapSpe = (800 - Spe * 5) / Spe;
-		return bulid(string , num);
+		return bulid(string , num,BG,END);
 
 	}
 
-	private Pane bulid(String string,int num) {
+	private Pane bulid(String string,int num,int BG,int END) {
 
 		double color_num = 1.5;
 		Line line = new Line();
@@ -51,24 +51,28 @@ public class mazeMap extends Pane {
 				case 0:
 					line = new Line(10, 10, mapSpe, 10);
 					line.setStroke(Color.YELLOW);
+					line.setStroke(Color.BLACK);
 					line.setStrokeWidth(color_num);
 					bp.setTop(line);
 					break;
 				case 1:
 					line = new Line(mapSpe, 10, mapSpe, mapSpe);
 					line.setStroke(Color.YELLOW);
+					line.setStroke(Color.BLACK);
 					line.setStrokeWidth(color_num);
 					bp.setRight(line);
 					break;
 				case 2:
 					line = new Line(10, mapSpe, mapSpe, mapSpe);
 					line.setStroke(Color.YELLOW);
+					line.setStroke(Color.BLACK);
 					line.setStrokeWidth(color_num);
 					bp.setBottom(line);
 					break;
 				case 3:
 					line = new Line(10, 10, 10, mapSpe);
 					line.setStroke(Color.YELLOW);
+					line.setStroke(Color.BLACK);
 					line.setStrokeWidth(color_num);
 					bp.setLeft(line);
 					break;
@@ -79,15 +83,16 @@ public class mazeMap extends Pane {
 			d++;
 		}
 		//³öÃ»µã
-		if (num == Spe*Spe-1 || num == 0) {
+		if (num == END || num == BG) {
 			Circle circle = new Circle((600 - Spe * 5) / (Spe * 2 * 2));
-			if(num == 0) {
+			if(num == BG) {
 				circle.setFill(Color.RED);
 				circle.setStroke(Color.RED);
 			}
-			if(num == Spe*Spe-1) {
-			circle.setFill(Color.GREEN);
-			circle.setStroke(Color.GREEN);
+			if(num == END) {
+				circle.setFill(Color.GREEN);
+				circle.setFill(Color.WHITE);
+				circle.setStroke(Color.GREEN);
 			}
 			bp.setCenter(circle);
 		}

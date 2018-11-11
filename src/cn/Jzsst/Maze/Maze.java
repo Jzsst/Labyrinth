@@ -39,6 +39,10 @@ import javafx.util.Duration;
  * 
  */
 public class Maze extends Application {
+	//初末点
+	private int BG =0;
+	private int END =0;
+	
 	// 背景
 	private StackPane stackPane = new StackPane();
 	private HBox AllPane = new HBox();
@@ -89,6 +93,16 @@ public class Maze extends Application {
 		Button Bmanually = new Button("手动生成");
 		Button Breset = new Button("重置");
 		TextField textFieldSpe = new TextField();
+		//输入起点终点
+		TextField textFieldBG_X = new TextField();
+		TextField textFieldBG_Y = new TextField();
+		TextField textFieldEnd_X = new TextField();
+		TextField textFieldEnd_Y = new TextField();
+		textFieldBG_X.setMaxWidth(40);
+		textFieldBG_Y.setMaxWidth(40);
+		textFieldEnd_X.setMaxWidth(40);
+		textFieldEnd_Y.setMaxWidth(40);
+		//*********
 		TextField fieldError = new TextField("错误信息显示...");
 		Button button = new Button("寻找路径");
 		Button button1 = new Button("遍历迷宫");
@@ -103,6 +117,10 @@ public class Maze extends Application {
 		button3.setDisable(true);
 		button4.setDisable(true);
 		textFieldSpe.setDisable(true);
+		textFieldBG_X.setDisable(true);
+		textFieldBG_Y.setDisable(true);
+		textFieldEnd_X.setDisable(true);
+		textFieldEnd_Y.setDisable(true);
 
 		// button
 		VBox paneRight = new VBox();
@@ -120,6 +138,38 @@ public class Maze extends Application {
 		paneRight.getChildren().add(text);
 		paneRight.getChildren().add(mode);
 
+		//初终点
+		
+		VBox box = new VBox();
+		Text text2 = new Text("                      (   X  ,   Y   )  ");
+		Text textBG = new Text("初始位置:");
+		Text textEND = new Text("终点位置:");
+		Circle circleBG = new Circle(15);
+		Circle circleEND = new Circle(15);
+		circleBG.setFill(Color.RED);
+		circleBG.setStroke(Color.RED);
+		
+		circleEND.setFill(Color.GREEN);
+		circleEND.setFill(Color.WHITE);
+		circleEND.setStroke(Color.GREEN);
+		Text textkong1 = new Text("      ");
+		Text textkong2 = new Text("      ");
+		box.setSpacing(10);
+		HBox box_BG = new HBox();
+		box_BG.getChildren().addAll(textBG,textFieldBG_X, textFieldBG_Y,textkong1,circleBG);
+		box_BG.setAlignment(Pos.CENTER);
+		box_BG.setSpacing(10);
+		
+		HBox box_END = new HBox();
+		box_END.getChildren().addAll(textEND,textFieldEnd_X, textFieldEnd_Y,textkong2,circleEND);
+		box_END.setAlignment(Pos.CENTER);
+		box_END.setSpacing(10);
+		
+		box.getChildren().add(text2);
+		box.getChildren().add(box_BG);
+		box.getChildren().add(box_END);
+		
+		
 		// 手动功能
 
 		Text text3 = new Text("迷宫规模");
@@ -129,7 +179,7 @@ public class Maze extends Application {
 		VBox b1 = new VBox();
 		b1.setAlignment(Pos.CENTER);
 		b1.setSpacing(20);
-		b1.getChildren().addAll(button4, textFieldSpe, sure);
+		b1.getChildren().addAll(button4, textFieldSpe,box, sure);
 		b1.setPadding(new Insets(15, 0, 30, 0));
 		paneRight.getChildren().add(b1);
 
@@ -162,6 +212,11 @@ public class Maze extends Application {
 			button4.setDisable(true);
 			sure.setDisable(true);
 			textFieldSpe.setDisable(true);
+			textFieldSpe.setDisable(true);
+			textFieldBG_X.setDisable(true);
+			textFieldBG_Y.setDisable(true);
+			textFieldEnd_X.setDisable(true);
+			textFieldEnd_Y.setDisable(true);
 			Bautomatic.setDisable(false);
 			Bmanually.setDisable(false);
 			pane.getChildren().clear();
@@ -176,6 +231,10 @@ public class Maze extends Application {
 			Bautomatic.setDisable(true);
 			Bmanually.setDisable(true);
 			sure.setDisable(false);
+			textFieldBG_X.setDisable(false);
+			textFieldBG_Y.setDisable(false);
+			textFieldEnd_X.setDisable(false);
+			textFieldEnd_Y.setDisable(false);
 			textFieldSpe.setDisable(false);
 		});
 
@@ -184,13 +243,15 @@ public class Maze extends Application {
 			pane.getChildren().clear();
 			try {
 				Spe = Integer.valueOf(textFieldSpe.getText().trim());
-				gp = new GenerationPath(Spe);
+				BG = (Integer.valueOf(textFieldBG_Y.getText().trim())-1)*Spe+(Integer.valueOf(textFieldBG_X.getText().trim())-1);
+				 END = (Integer.valueOf(textFieldEnd_Y.getText().trim())-1)*Spe+(Integer.valueOf(textFieldEnd_X.getText().trim())-1);
+				gp = new GenerationPath(Spe ,BG,END);
 				ArrayList<MyPoint> GPathRoad = gp.getMaze();
 				for (int i = 0; i < GPathRoad.size(); i++) {
 					mazeList.add(GPathRoad.get(i).toState());
 				}
 				// 添加动画
-				Maze_Generate_Animation();
+				Maze_Generate_Animation(BG,END);
 				sure.setDisable(true);
 				button.setDisable(false);
 				button1.setDisable(false);
@@ -206,6 +267,10 @@ public class Maze extends Application {
 			Bautomatic.setDisable(true);
 			sure.setDisable(true);
 			textFieldSpe.setDisable(true);
+			textFieldBG_X.setDisable(false);
+			textFieldBG_Y.setDisable(false);
+			textFieldEnd_X.setDisable(false);
+			textFieldEnd_Y.setDisable(false);
 			button4.setDisable(false);
 		});
 		button4.setOnAction(e -> {
@@ -226,9 +291,11 @@ public class Maze extends Application {
 				pane.getChildren().clear();
 				// ********************
 
+				 BG = (Integer.valueOf(textFieldBG_Y.getText().trim())-1)*Spe+(Integer.valueOf(textFieldBG_X.getText().trim())-1);
+				 END = (Integer.valueOf(textFieldEnd_Y.getText().trim())-1)*Spe+(Integer.valueOf(textFieldEnd_X.getText().trim())-1);
 				// 动画
 
-				Maze_Generate_Animation();
+				Maze_Generate_Animation(BG, END);
 
 				// *********************
 				button4.setDisable(true);
@@ -262,7 +329,7 @@ public class Maze extends Application {
 			}
 			if (flag == mazePointB.size()) {
 				try {
-					Ui(spanRoad.getMazePoint(), spanRoad.spanFindRoad(mazeList, Spe), new Color(0, 1, 0, 1), 0);
+					Ui(spanRoad.getMazePoint(), spanRoad.spanFindRoad(mazeList, Spe,BG,END), new Color(0, 1, 0, 1), 0);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -281,7 +348,7 @@ public class Maze extends Application {
 			// 控制
 			try {
 				Num_Animation_Frame = 0;
-				Stack<String> spanRoad_Back = spanRoad.spanFindRoad(mazeList, Spe);
+				Stack<String> spanRoad_Back = spanRoad.spanFindRoad(mazeList, Spe,BG,END);
 				// 将两个数组进行倒置
 //				Stack<String> spanRoad_Back_T = (Stack) spanRoad_Back.clone();
 //				@SuppressWarnings("rawtypes")
@@ -308,7 +375,7 @@ public class Maze extends Application {
 
 			try {
 				mazePointB = depthRoad.getMazePoint1();
-				mazeRoadB = depthRoad.depthFindRoad(mazeList, Spe, 1);
+				mazeRoadB = depthRoad.depthFindRoad(mazeList, Spe, 1,BG,END);
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -330,7 +397,7 @@ public class Maze extends Application {
 			gridPane1.getChildren().clear();
 			try {
 				Num_Animation_Frame = 0;
-				Maze_Search_Animation(depthRoad.getMazePoint(), depthRoad.depthFindRoad(mazeList, Spe, 0),
+				Maze_Search_Animation(depthRoad.getMazePoint(), depthRoad.depthFindRoad(mazeList, Spe, 0,BG,END),
 						new Color(1, 0, 0, 1), 0);
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -339,7 +406,8 @@ public class Maze extends Application {
 			pane.getChildren().add(gridPane1);
 		});
 		// 背景
-		ImageView imageView = new ImageView("file:file/backgrand.png");
+		ImageView imageView = new ImageView();
+//		ImageView imageView = new ImageView("file:file/backgrand.png");
 		AllPane.getChildren().add(pane);
 		AllPane.getChildren().add(paneRight);
 		AllPane.setAlignment(Pos.CENTER);
@@ -391,24 +459,28 @@ public class Maze extends Application {
 						case 0:
 							line = new Line(10, 10,mapSpe, 10);
 							line.setStroke(Color.YELLOW);
+							line.setStroke(Color.BLACK);
 							line.setStrokeWidth(color_num);
 							bp.setTop(line);
 							break;
 						case 1:
 							line = new Line(mapSpe, 10, mapSpe, mapSpe);
 							line.setStroke(Color.YELLOW);
+							line.setStroke(Color.BLACK);
 							line.setStrokeWidth(color_num);
 							bp.setRight(line);
 							break;
 						case 2:
 							line = new Line(10, mapSpe,mapSpe, mapSpe);
 							line.setStroke(Color.YELLOW);
+							line.setStroke(Color.BLACK);
 							line.setStrokeWidth(color_num);
 							bp.setBottom(line);
 							break;
 						case 3:
 							line = new Line(10, 10, 10, mapSpe);
 							line.setStroke(Color.YELLOW);
+							line.setStroke(Color.BLACK);
 							line.setStrokeWidth(color_num);
 							bp.setLeft(line);
 							break;
@@ -446,14 +518,15 @@ public class Maze extends Application {
 						}
 					}
 				}
-				if (i == mazeList.size() - 1 || i == 0) {
+				if (i == END || i == BG) {
 					Circle circle = new Circle((600 - Spe * 5) / (Spe * 2 * 2));
-					if (i == 0) {
+					if (i == BG) {
 						circle.setFill(Color.RED);
 						circle.setStroke(Color.RED);
 					}
-					if (i == Spe * Spe - 1) {
+					if (i == END) {
 						circle.setFill(Color.GREEN);
+						circle.setFill(Color.WHITE);
 						circle.setStroke(Color.GREEN);
 					}
 					bp.setCenter(circle);
@@ -502,14 +575,14 @@ public class Maze extends Application {
 	}
 
 	/** 生成迷宫动画 */
-	public void Maze_Generate_Animation() {
+	public void Maze_Generate_Animation(int BG ,int END) {
 		generate_EventHandler = e -> {
 			// 每一帧的动画,将每一个方格添加入map_Maze
 			try {
 				int x = Num_Animation_Frame % Spe;
 				int y = Num_Animation_Frame / Spe;
 
-				Maze_map_pane.add(map.MazeGeneration(mazeList.get(Num_Animation_Frame), Spe, Num_Animation_Frame), x,
+				Maze_map_pane.add(map.MazeGeneration(mazeList.get(Num_Animation_Frame), Spe, Num_Animation_Frame,BG,END), x,
 						y);
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -521,6 +594,7 @@ public class Maze extends Application {
 				timeline.stop();
 		};
 
+		Maze_map_pane.setPadding(new Insets(220, 90, 250, 100));
 		pane.getChildren().add(Maze_map_pane);
 		Num_Animation_Frame = 0;
 		timeline = new Timeline(new KeyFrame(Duration.millis(100), generate_EventHandler));

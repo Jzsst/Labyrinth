@@ -6,11 +6,14 @@ import java.util.Stack;
 
 public class GenerationPath {
 	private int Spe = 0;
+	private int bg;
+	private int end;
 	private Random random = new Random();
 	
-	public GenerationPath(int Spe) {
+	public GenerationPath(int Spe,int bg,int end) {
 		super();
 		this.Spe = Spe;
+		this.bg=bg;
 	}
 
 	public ArrayList<MyPoint> getMaze() {
@@ -26,8 +29,8 @@ public class GenerationPath {
 
 	private ArrayList<MyPoint> CreateMaze(ArrayList<MyPoint> maze) {
 		//起点
-		int x = 0;
-		int y = 0;
+		int x = bg;
+		int y = end;
 		Stack<MyPoint> mazeteam = new Stack<MyPoint>();
 		mazeteam.add(maze.get(x + y * Spe));
 		while (!mazeteam.isEmpty()) {
@@ -37,9 +40,9 @@ public class GenerationPath {
 			MyPoint pt = (MyPoint) mazeteam.peek();
 			x = pt.getX();
 			y = pt.getY();
-			pt.visted = true;
+			pt.visted = true;  //给定能访问
 
-			ro1: while (times < 4) {
+			fromTO: while (times < 4) {   //给你四次机会，具体每一次你开多少门，是不确定的。
 				int Direction = random.nextInt(4);
 				if (val[Direction] == Direction)
 					continue;
@@ -54,7 +57,7 @@ public class GenerationPath {
 						maze.get(x + (y - 1) * Spe).setDown();
 						mazeteam.add(maze.get(x + (y - 1) * Spe));
 						flag = true;
-						break ro1;
+						break fromTO;
 					}
 					break;
 				case 1: // 右边
@@ -64,7 +67,7 @@ public class GenerationPath {
 						maze.get(x + 1 + y * Spe).setLeft();
 						mazeteam.add(maze.get(x + 1 + y * Spe));
 						flag = true;
-						break ro1;
+						break fromTO;
 					}
 					break;
 				case 2: //下边
@@ -73,7 +76,7 @@ public class GenerationPath {
 						maze.get(x + (y + 1) * Spe).setUp();
 						mazeteam.add(maze.get(x + (y + 1) * Spe));
 						flag = true;
-						break ro1;
+						break fromTO;
 					}
 					break;
 				case 3:  // 左边
@@ -82,7 +85,7 @@ public class GenerationPath {
 						maze.get(x - 1 + y * Spe).setRight();
 						mazeteam.add(maze.get(x - 1 + y * Spe));
 						flag = true;
-						break ro1;
+						break fromTO;
 					}
 					break;
 				}

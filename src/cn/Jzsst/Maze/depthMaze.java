@@ -34,7 +34,7 @@ public class depthMaze {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Stack<String> depthFindRoad(ArrayList<String> mazeList,int Spe,int Judge) throws Exception {
+	public Stack<String> depthFindRoad(ArrayList<String> mazeList,int Spe,int Judge ,int BG ,int END) throws Exception {
 		// 给定路径
 		this.Judge =Judge;
 		mazeBoolean.clear();
@@ -46,8 +46,11 @@ public class depthMaze {
 			mazeBoolean.add(false);
 		}
 		mazeS = Spe;
-		EndX = mazeS - 1;
-		EndY = mazeS - 1;
+		StartX =  BG%mazeS;
+		StartY =BG/mazeS;
+		
+		EndX = END%mazeS;
+		EndY =END/mazeS;
 		// 对路径进行分析,寻路
 		depthFind();
 		return mazeRoad;
